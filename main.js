@@ -7,6 +7,8 @@ import multer from "multer";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
+import 'dotenv/config';
+
 
 const swaggerOptions = {
   definition: {
@@ -26,9 +28,9 @@ const swaggerSpecs = swaggerJsdoc(swaggerOptions);
 const program = new Command();
 
 program
-  .requiredOption("-h, --host <host>", "Server host")
-  .requiredOption("-p, --port <port>", "Server port")
-  .requiredOption("-c, --cache <dir>", "Cache directory path");
+  .option("-h, --host <host>", "Hostname", process.env.HOST )
+  .option("-p, --port <port>", "Port number", process.env.PORT )
+  .option("-c, --cache <dir>", "Cache directory path", './cache');
 
 program.parse(process.argv);
 const { host, port, cache } = program.opts();

@@ -1,0 +1,26 @@
+
+services:
+  backend:
+    build: .
+    container_name: my-backend
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: my-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
