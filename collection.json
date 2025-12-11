@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "ed48b82d-43c8-467b-937a-9691b88b2781",
+		"name": "lab6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50415637",
+		"_collection_link": "https://justalex00000-9868850.postman.co/workspace/alex's-Workspace~9c186140-5711-486f-81b3-daf3c522a51e/collection/50415637-ed48b82d-43c8-467b-937a-9691b88b2781?action=share&source=collection_link&creator=50415637"
+	},
+	"item": [
+		{
+			"name": "POST /register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "inventory_name",
+							"value": "Laptop",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "My work laptop",
+							"type": "text"
+						},
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/C:/Users/alice/Desktop/random bs/flat,750x,075,f-pad,750x1000,f8f8f8.u1.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /inventory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /inventory/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/inventory/1764260004934_423",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory",
+						"1764260004934_423"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /inventory/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Updated Laptop Name\",\r\n  \"description\": \"Updated description\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/inventory/1764319424531_5876",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory",
+						"1764319424531_5876"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /inventory/{id}/photo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/inventory/1764319424531_5876/photo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory",
+						"1764319424531_5876",
+						"photo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /inventory/{id}/photo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/C:/Users/alice/Desktop/random bs/boowomp.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/inventory/1764319424531_5876/photo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory",
+						"1764319424531_5876",
+						"photo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /inventory/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/inventory/1764260535345_4599",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory",
+						"1764260535345_4599"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /RegisterForm.html",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/RegisterForm.html",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"RegisterForm.html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /SearchForm.html",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/SearchForm.html",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"SearchForm.html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "1764319424531_5876",
+							"type": "text"
+						},
+						{
+							"key": "has_photo",
+							"value": "on",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
