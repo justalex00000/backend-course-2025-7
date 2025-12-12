@@ -107,7 +107,40 @@ async function deleteItem(id) {
   return result.rows[0];
 }
 
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+
 // --- Routes ---
+
+/**
+ * @openapi
+ * /register:
+ *   post:
+ *     summary: Register a new inventory item
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - inventory_name
+ *             properties:
+ *               inventory_name:
+ *                 type: string
+ *                 description: Name of the item
+ *               description:
+ *                 type: string
+ *                 description: Description of the item
+ *               photo:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Item successfully created
+ *       400:
+ *         description: Missing inventory_name
+ */
+
 app.post("/register", upload.single("photo"), async (req, res) => {
   try {
     const { inventory_name, description } = req.body;
@@ -129,6 +162,16 @@ app.post("/register", upload.single("photo"), async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /inventory:
+ *   get:
+ *     summary: Get all inventory items
+ *     responses:
+ *       200:
+ *         description: Returns list of all items
+ */
+
 app.get("/inventory", async (req, res) => {
   try {
     const items = await getItems();
@@ -142,6 +185,85 @@ app.get("/inventory", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+/**
+ * @openapi
+ * /inventory/{id}:
+ *   get:
+ *     summary: Get item by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the item
+ *     responses:
+ *       200:
+ *         description: Item found
+ *       404:
+ *         description: Item not found
+ *   put:
+ *     summary: Update an item (name/description)
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the item to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: New name of the item
+ *               description:
+ *                 type: string
+ *                 description: New description of the item
+ *     responses:
+ *       200:
+ *         description: Item updated
+ *       404:
+ *         description: Item not found
+ *   delete:
+ *     summary: Delete an inventory item
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the item to delete
+ *     responses:
+ *       200:
+ *         description: Item successfully deleted
+ *       404:
+ *         description: Item not found
+ */
+
+/**
+ * @openapi
+ * /RegisterForm.html:
+ *   get:
+ *     summary: Web form to register a new inventory device
+ *     responses:
+ *       200:
+ *         description: HTML form for device registration
+ */
+/**
+ * @openapi
+ * /SearchForm.html:
+ *   get:
+ *     summary: Web form to search for an inventory device
+ *     responses:
+ *       200:
+ *         description: HTML form for device search
+ */
 
 app.get("/inventory/:id", async (req, res) => {
   try {
@@ -187,6 +309,52 @@ app.delete("/inventory/:id", async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /inventory/{id}/photo:
+ *   get:
+ *     summary: Get item photo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the item
+ *     responses:
+ *       200:
+ *         description: JPEG photo file
+ *       404:
+ *         description: Photo or item not found
+ *   put:
+ *     summary: Update item photo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the item
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               photo:
+ *                 type: string
+ *                 format: binary
+ *                 description: New photo file
+ *     responses:
+ *       200:
+ *         description: Photo updated
+ *       400:
+ *         description: Photo file missing
+ *       404:
+ *         description: Item not found
+ */
+
 app.get("/inventory/:id/photo", async (req, res) => {
   try {
     const it = await getItemById(req.params.id);
@@ -226,7 +394,57 @@ app.put("/inventory/:id/photo", upload.single("photo"), async (req, res) => {
   }
 });
 
-// --- Search GET ---
+/**
+ * @openapi
+ * /search:
+ *   get:
+ *     summary: Search an inventory item by ID
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the item to search
+ *       - in: query
+ *         name: includePhoto
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: ["on"]
+ *         description: |
+ *           Include URL to the item's photo.
+ *           If checkbox not checked, parameter is undefined.
+ *           If checkbox checked, parameter value is "on".
+ *     responses:
+ *       200:
+ *         description: Found item
+ *       400:
+ *         description: Missing id parameter
+ *       404:
+ *         description: Item not found
+ *   post:
+ *     summary: Search an inventory item by ID (POST)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *               includePhoto:
+ *                 type: string
+ *     responses:
+ *       200: 
+ *         description: Found item
+ *       400:
+ *         description: Missing id in request body
+ *       404:
+ *         description: Item not found
+ */
+
 app.get("/search", async (req, res) => {
   try {
     const { id, includePhoto } = req.query;
@@ -247,7 +465,6 @@ app.get("/search", async (req, res) => {
   }
 });
 
-// --- Search POST ---
 app.post("/search", async (req, res) => {
   try {
     const { id, includePhoto } = req.body;
