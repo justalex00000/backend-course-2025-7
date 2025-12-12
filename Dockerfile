@@ -7,4 +7,6 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "dev"]
+#CMD ["npm", "run", "dev"]
+CMD ["node", "--inspect=0.0.0.0:9229", "main.js"]
+

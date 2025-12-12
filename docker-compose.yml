@@ -5,6 +5,7 @@ services:
     container_name: my-backend
     ports:
       - "${PORT}:${PORT}"
+      - "9229:9229"
     env_file:
       - .env
     volumes:
